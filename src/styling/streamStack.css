@@ -1,0 +1,13 @@
+
+
+  .legend-college {
+    float: right;
+    width: 50px;
+    text-align: left;
+}
+
+.nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #334a63;
+}
+  

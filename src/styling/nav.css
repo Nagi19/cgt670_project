@@ -1,3 +1,22 @@
+
+
+.navbar-default .navbar-nav > .active{
+  color: #000;
+  background: #d65c14;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #000;
+  background: #d65c14;
+  border-bottom-color: #d65c14
+}
+
+img.nav-link {
+  display: block;
+   padding: 0px 1px;
+}
+
 .ad-left {
     float: left;
   }
@@ -9,4 +28,23 @@
   
   .entire-thing {
     width: 650px;
+  }
+
+  .img-wrap {
+    width: 200px;
+    height: 100px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0;
+  }
+  
+  li > img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-50%, -50%);
   }
