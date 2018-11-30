@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import BaseMap from './baseMap'
-import "../styling/home.css"
-
+import Iframe from 'react-iframe'
+import { StudentEnrollment, VisitingScholars, StudyingAbroad} from './baseMap'
+import "../styling/home.css";
 import StreamStack from './stream.js';
 
 class WorldMap extends Component {
@@ -9,13 +9,17 @@ class WorldMap extends Component {
     super()
     this.state = {
     }
-  }
+    }
   
-  componentDidMount() {   }
+  componentDidMount() {   
+
+ 
+  }
 
   render() {
     return (
-
+      <div>
+      
       <div className = "row">
        <div className = "col-2"></div>
       <div className = "col-8">
@@ -34,19 +38,29 @@ class WorldMap extends Component {
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
        
-        <BaseMap/>
+        <StudentEnrollment/>
         <StreamStack/>
-        
-        
-
+        <Iframe url="http://localhost:8080/maps/test.html"
+            position="absolute"
+            width="100%"
+            id="chart"
+            className="chart"
+            height="100%"
+            styles={{height: "500px"}}
+            allowFullScreen/>
         
         </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">hi</div>
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">test</div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <VisitingScholars/>
+        </div>
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+        <StudyingAbroad/>
+        </div>
       </div>
-</div>
-<div className = "col-2"></div>
-
+      </div>
+      <div className = "col-2"></div>
+      </div>
+      
       </div>
     )
   }

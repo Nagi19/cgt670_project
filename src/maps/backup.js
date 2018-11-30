@@ -6,20 +6,15 @@ import * as d3 from '../../node_modules/d3/dist/d3.min.js';
 class StreamStack extends Component {
   constructor() {
     super()
-    this.state = {
-    }
-
+    this.state = {}
   }
 
    
   componentDidMount(){
-   /*
-From https://bl.ocks.org/mbostock/4060954. Customizing and confirming it works with D3 v5.
-*/
-
-var n = 5, // number of layers
+  
+var n = 10, // number of layers
 m = 500, // number of samples per layer
-k = 10; // number of bumps per layer
+k = 5; // number of bumps per layer
 
 // Inspired by Lee Byron’s test data generator.
 const bump = (a, n) => {
@@ -44,24 +39,15 @@ var colorrange = ['#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854','#ffd92f','#
 
 
 const stackMax = layer => d3.max(layer, d => d[1])
-
 const stackMin = layer => d3.min(layer, d => d[0])
 
-const transition = () => {
-var t;
-d3.selectAll("path")
-.data((t = layers1, layers1 = layers0, layers0 = t))
-.transition()
-  .duration(2500)
-  .attr("d", area);
-}
+
 
 var stack = d3.stack().keys(d3.range(n)).offset(d3.stackOffsetWiggle),
 layers0 = stack(d3.transpose(d3.range(n).map(() => bumps(m, k)))),
 layers1 = stack(d3.transpose(d3.range(n).map(() => bumps(m, k)))),
 layers = layers0.concat(layers1)
-
-
+    
 var svg = d3.select("#test"),
 width = +svg.attr("width"),
 height = +svg.attr("height")
@@ -70,14 +56,17 @@ var x = d3.scaleLinear()
 .domain([0, m - 1])
 .range([0, width])
 
+var xAxis = d3.axisBottom()
+    .ticks(d3.timeYears);
+
 var y = d3.scaleLinear()
 .domain([d3.min(layers, stackMin), d3.max(layers, stackMax)])
 .range([height, 0])
 
 var area = d3.area()
 .x((d, i) => x(i))
-.y0(d => y(d[0]))
-.y1(d => y(d[1]))
+.y0(d => y(d[0]) - .2)
+.y1(d => y(d[1]) +.2)
 
 
 var z = d3.scaleOrdinal()
@@ -89,8 +78,7 @@ svg.selectAll("path")
  .attr("d", area)
  .attr("fill", () => z(Math.random()))
     
-
-
+ 
   var collegeCode = {
       "Engineering" : "#66c2a5",
       "Science" : "#fc8d62",
