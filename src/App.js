@@ -7,6 +7,7 @@ import Nav from './components/nav';
 import Home from './components/home';
 
 import './App.css';
+import "./styling/home.css";
 
 class App extends Component {
   render() {
