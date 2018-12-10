@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Iframe from 'react-iframe'
-import { StudentEnrollment, VisitingScholars, StudyingAbroad} from './baseMap'
+import { StudentEnrollment,  StudyingAbroad} from './baseMap'
+import VisitingScholars from "./faculty"
 import "../styling/home.css";
 import StreamStack from './stream.js';
 
@@ -40,14 +41,15 @@ class WorldMap extends Component {
        
         <StudentEnrollment/>
         <StreamStack/>
-        <Iframe url="http://localhost:8080/maps/test.html"
+        <Iframe url="http://localhost:8000/maps/test.html"
             position="absolute"
             width="100%"
+            overflow = "scroll"
             id="chart"
             className="chart"
             height="100%"
             styles={{height: "500px"}}
-            allowFullScreen/>
+            />
         
         </div>
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">

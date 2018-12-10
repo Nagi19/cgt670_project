@@ -3,7 +3,7 @@
 <style>
 
 body {
-  font: 10px sans-serif;
+  font: 10px helvetica;
 }
 
 .chart { 
@@ -30,15 +30,29 @@ button {
 
 </style>
 <body>
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
 <script src="http://d3js.org/d3.v2.js"></script>
 
-
+<div class="container">
+    <div class="row">
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-10">
 <div class="chart">
 </div>
 
+</div>
+<div class="col-sm-1">
+  </div>
+</div>
 <script>
 
-chart("../test.csv", "orange");
+chart("../streamStack.csv", "orange");
 
 var datearray = [];
 var colorrange = [];
@@ -46,26 +60,26 @@ var colorrange = [];
 
 function chart(csvpath, color) {
 
-
-var colorrange = ['#66c2a5','#fc8d62','#4fc3f7','#e78ac3','#a6d854','#ffd92f','#e5c494','#b3b3b3',];
+var colorrange = ['#E57373','#9575CD','#81C784','#FFF176','#A1887F','#DCE775','#BA68C8','#4DB6AC', '#64B5F6', '#FF8A65',"#E0E0E0", "#FFF176" ,"#90A4AE"];
 strokecolor = colorrange[0];
 
 var format = d3.time.format("%m/%d/%y");
 
-var margin = {top: 20, right: 40, bottom: 30, left: 30};
-var width = document.body.clientWidth - margin.left - margin.right;
+var margin = {top: 50, right: 10, bottom: 30, left: 0};
+var width = 1200 - margin.left - margin.right;
 var height = 400 - margin.top - margin.bottom;
 var tooltip = d3.select("body")
     .append("div")
     .attr("class", "remove")
     .style("position", "absolute")
     .style("z-index", "20")
-    .style("visibility", "hidden")
     .style("top", "30px")
-    .style("left", "55px");
+    .style("right", "55px");
 
 var x = d3.time.scale()
-    .range([0, width]);
+   .range([0, 1500]);
+   // .range([0,  2018]);
+
 var y = d3.scale.linear()
     .range([height-10, 0]);
 
@@ -75,7 +89,7 @@ var z = d3.scale.ordinal()
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
-   // .tickFormat(d3.time.format("%Y"));
+  // .tickFormat(d3.time.format("%Y"));
 
 var yAxis = d3.svg.axis()
     .scale(y);
@@ -95,15 +109,16 @@ var nest = d3.nest()
 
 var area = d3.svg.area()
     .interpolate("cardinal")
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(new Date(parseInt(d.date), 4)); })
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
 
 var svg = d3.select(".chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("viewBox", "1000 0 50 700")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var graph = d3.csv(csvpath, function(data) {
   data.forEach(function(d) {
@@ -114,8 +129,9 @@ var graph = d3.csv(csvpath, function(data) {
   var layers = stack(nest.entries(data));
 
   x.domain(d3.extent(data, function(d) { 
-    //return  new Date(parseInt(d.date),0); }));
-    return d.date}));
+    var xaxisDate  = new Date(parseInt(d.date), 4);
+    return xaxisDate;
+ }));
   y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
   svg.selectAll(".layer")

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../styling/nav.css'
 import purdue from '../purduecampusarial.jpg';
+import mapview from '../mapview.png';
 
 import { Link } from 'react-router-dom'
 
@@ -26,14 +27,12 @@ class Nav extends Component {
         <ul className="nav justify-content-end ad-right">
         
         <li className="nav-item img-wrap active">
-        <Link  to={'/'}><img  className = "nav-link " src= {purdue} /></Link>
+        <Link  to={'/'}><img  className = "nav-link " src= {mapview} /></Link>
         </li>
         <li className="nav-item img-wrap">
-        <Link  to={'/'}><img className = "nav-link " src= {purdue} /></Link>
+        <Link  to={'/tree'}><img className = "nav-link " src= {purdue} /></Link>
         </li>
-        <li className="nav-item img-wrap">
-        <Link  to={'/'}><img className = "nav-link "  src= {purdue} /></Link>
-        </li>
+       
         
       </ul>
       </div>

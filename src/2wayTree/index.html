@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+  <head>
+    <title>College Collaborations</title>
+    <link rel="stylesheet" href="d3-collapsible-tree.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
+    
+    <script type="text/javascript" src="d3.min.js"></script>
+    <script type="text/javascript" src="d3.layout.js"></script>
+
+  </head>
+  <body>
+
+    <style>
+      
+      .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #1c2125;
+}
+.nav-pills .nav-link {
+    border-radius: .15rem;
+}
+      </style>
+    <div class="container">
+      <!-- Content here -->
+   
+
+    <h1 align="center">College Collaborations</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-10">
+
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Polytechnic</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-agri-tab" data-toggle="pill" href="#pills-agri" role="tab" aria-controls="pills-agri" aria-selected="false">College of Agriculture</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-health-tab" data-toggle="pill" href="#pills-health" role="tab" aria-controls="pills-health" aria-selected="false">College of Health and Human Sciences</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-arts-tab" data-toggle="pill" href="#pills-arts" role="tab" aria-controls="pills-arts" aria-selected="false">College of Liberal Arts</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="pills-eng-tab" data-toggle="pill" href="#pills-eng" role="tab" aria-controls="pills-eng" aria-selected="false">College of Engineering</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-sci-tab" data-toggle="pill" href="#pills-sci" role="tab" aria-controls="pills-sci" aria-selected="false">College of Science</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" id="pills-man-tab" data-toggle="pill" href="#pills-man" role="tab" aria-controls="pills-man" aria-selected="false">Krannert School of Management</a>
+                    </li>
+          </ul>
+        
+     
+    </div>
+    <div class="col-sm-1">
+    </div>
+  </div>
+</div>
+    
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-10"></div>
+  
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div id="categoryHierarchy"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-eng" role="tabpanel" aria-labelledby="pills-eng-tab">
+        <div id="eng"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-sci" role="tabpanel" aria-labelledby="pills-sci-tab">
+        <div id="sci"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-arts" role="tabpanel" aria-labelledby="pills-arts-tab">
+        <div id="arts"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-health" role="tabpanel" aria-labelledby="pills-health-tab">
+        <div id="health"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-man" role="tabpanel" aria-labelledby="pills-man-tab">
+        <div id="man"></div>
+    </div>
+    <div class="tab-pane fade" id="pills-agri" role="tabpanel" aria-labelledby="pills-agri-tab">
+        <div id="agri"></div>
+    </div>
+  </div>
+
+  <div class="col-sm-1">
+    </div>
+    </div>
+    
+
+    <script type="text/javascript" src="concept-graph.js"></script>
+
+    <script>
+      $(document).ready(function(event) {
+        var tree = CollapsibleTree("#categoryHierarchy");
+        tree.init('poly.json', "Polytechnic Institute");
+
+        var tree1 = CollapsibleTree("#sci");
+        tree1.init('sci.json', "College of Science");
+
+        var tree2 = CollapsibleTree("#arts");
+        tree2.init('arts.json', "College of Liberal Arts");
+
+        var tree3 = CollapsibleTree("#health");
+        tree3.init('health.json', "College of Health and Human Sciences");
+
+        var tree2 = CollapsibleTree("#eng");
+        tree2.init('eng.json', "College of Engineering");
+
+        var tree2 = CollapsibleTree("#agri");
+        tree2.init('agri.json', "College of Agriculture");
+
+        var tree2 = CollapsibleTree("#man");
+        tree2.init('man.json', "Krannert School of Management");
+      });
+
+
+    </script>
+     </div>
+  </body>
+</html>

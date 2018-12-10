@@ -96,62 +96,111 @@ class StreamStack extends Component {
     return (
         <div>
             <h2>International Students by college</h2>
+            <br></br>
             <div id="my-legend">
+            <div className="row">
+                    <div className="col-sm-4"></div>
+                    <div className="col-sm-4">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#64B5F6" />
+                    </svg>
+                    <div className = "legend-college">Polytechnic </div>
+                    
+                    </div>
+                    <div className="col-sm-4"></div>
+                </div>
+                <br></br>
+                <br></br>
                 <div className="row">
                     <div className="col-sm-3">
                         <svg height="20" width="20">
-                            <circle cx="10" cy="10" r="5" stroke-width="3" fill="#66c2a5" />
+                            <circle cx="10" cy="10" r="5" stroke-width="3" fill="#81C784" />
                         </svg>
                         <div className = "legend-college">Engineering </div>
                     </div>
                     <div className="col-sm-3">
                         <svg height="20" width="20">
-                            <circle cx="10" cy="10" r="5" stroke-width="3" fill="#fc8d62" />
+                            <circle cx="10" cy="10" r="5" stroke-width="3" fill="#FF8A65" />
                         </svg>
                         <div className = "legend-college">Science </div>
                     </div>
+                   
                     <div className="col-sm-3">
                     <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#8da0cb" />
-                    </svg>
-                    <div className = "legend-college">Polytechnic </div>
-                    
-                    </div>
-                    <div className="col-sm-3">
-                    <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#e78ac3" />
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#4DB6AC" />
                     </svg>
                     <div className = "legend-college">Management </div>
                     
                     </div>
+
+                    <div className="col-sm-3">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#9575CD" />
+                    </svg>
+                    <div className = "legend-college">Education </div>
+                    
+                    </div>
+
                 </div>
                 <div className="row">
                     <div className="col-sm-3">
                     <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#a6d854" />
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#BA68C8" />
                     </svg>
                     <div className = "legend-college">Liberal Arts </div>
                     
                     </div>
                     <div className="col-sm-3">
                     <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#ffd92f" />
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#E57373" />
                     </svg>
                     <div className = "legend-college">Agriculture </div>
                     
                     </div>
                     <div className="col-sm-3">
                     <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#e5c494" />
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#DCE775" />
                     </svg>
                     <div className = "legend-college">Pharmacy </div>
                     
                     </div>
                     <div className="col-sm-3">
                     <svg height="20" width="20">
-                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#b3b3b3" />
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#FFF176" />
                     </svg>
-                    <div className = "legend-college">Others </div>
+                    <div className = "legend-college">Consumer Sciences</div>
+                    
+                    </div>
+                </div>
+                <div className="row">
+
+                    <div className="col-sm-3">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#FFF176" />
+                    </svg>
+                    <div className = "legend-college">Interdiscipliary Programs </div>
+                    
+                    </div>
+                    <div className="col-sm-3">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#A1887F" />
+                    </svg>
+                    <div className = "legend-college">Exploratory Studies </div>
+                    
+                    </div>
+                    <div className="col-sm-3">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#E0E0E0" />
+                    </svg>
+                    <div className = "legend-college">Veternary Medicine </div>
+                    
+                    </div>
+
+                     <div className="col-sm-3">
+                    <svg height="20" width="20">
+                        <circle cx="10" cy="10" r="5" stroke-width="3" fill="#90A4AE" />
+                    </svg>
+                    <div className = "legend-college">Non Degree </div>
                     
                     </div>
                 </div>

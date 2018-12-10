@@ -5,14 +5,16 @@ import Data from '../jsons/worldMap'
 import Names from '../jsons/countryNames'
 import "../styling/maps.css"
 import "../styling/home.css"
-
+import mapview from '../PURDUE.svg';
 import $ from 'jquery';
+import * as d3 from "d3";
 
 
 class BaseMap extends Component {
   constructor() {
     super()
     this.state = {
+      showPopup: true,
       worldData: feature(Data, Data.objects.countries).features,
       countries : Names,
       land: [],
@@ -45,23 +47,22 @@ class BaseMap extends Component {
         {"Year": "2015", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "1"},
         {"Year": "2015", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "1"},
         {"Year": "2015", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "1"},
-        {"Year": "2015", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "2"},
-        {"Year": "2015", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "1"},
-        {"Year": "2015", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "1"},
-        {"Year": "2015", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "2"},
-        {"Year": "2015", "Country": "Uganda", "coordinates": [32.30,0], "Capital": "Kampala", "Count": "1"},
-        {"Year": "2015", "Country": "Sweden", "coordinates": "", "Capital": "Stockholm", "Count": "2"},
-        {"Year": "2015", "Country": "Switzerland", "coordinates": "", "Capital": "Bern", "Count": "1"},
-        {"Year": "2015", "Country": "Thailand", "coordinates": "", "Capital": "Krung Thep (Bangkok)", "Count": "1"},
-        {"Year": "2015", "Country": "Turkey", "coordinates": "", "Capital": "Ankara", "Count": "2"},
-        {"Year": "2015", "Country": "Uganda", "coordinates": "", "Capital": "Kampala", "Count": "1"},
-        {"Year": "2015", "Country": "United Kingdom", "coordinates": "", "Capital": "London", "Count": "1"},
+        {"Year": "2015", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "4"},
+        {"Year": "2015", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
+        {"Year": "2015", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "2"},
+        {"Year": "2015", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "4"},
+        {"Year": "2015", "Country": "Uganda", "coordinates": [32.30,0], "Capital": "Kampala", "Count": "2"},
+        {"Year": "2015", "Country": "United Kingdom", "coordinates": [0, 51.50], "Capital": "London", "Count": "1"},
       ],
 
     }
     this.join = this.join.bind(this);
     this.test = this.test.bind(this);
+    this.togglePopup = this.togglePopup.bind(this);
   }
+
+ 
+
   projection() {
     return geoMercator()
       .center([0, 5 ])
@@ -70,10 +71,15 @@ class BaseMap extends Component {
       .rotate([-240,])
   }
 
+  togglePopup() {
+    return 
+    
+  }
+
 instructions(coordinates) {
-    return `M ${coordinates[0]},${coordinates[1]}
-            Q ${(this.projection()([-86.9081,40.4259])[0] + coordinates[0] )/2},${(this.projection()([-86.9081,40.4259])[1] + coordinates[1] )/2}
-            C  ${this.projection()([-86.9081,40.4259])[1]},${this.projection()([-86.9081,40.4259])[1]}
+    return `M  ${ this.projection()(coordinates)[0]} ${this.projection()(coordinates)[1]}
+            Q ${(this.projection()([-86.9081,40.4259])[0] + this.projection()(coordinates)[0] )/2 + 100} ${(this.projection()([-86.9081,40.4259])[1] + this.projection()(coordinates)[1] )/2 + 100}
+            ${this.projection()([-86.9081,40.4259])[0]} ${this.projection()([-86.9081,40.4259])[1]}
             `;
   }
 
@@ -101,7 +107,7 @@ instructions(coordinates) {
           var width = el.width();
           console.log(el);
           newPoint = (el.val() - el.attr("min")) / (el.attr("max") - el.attr("min"));
-          offset = 23;
+          offset = 25;
   
           if (newPoint < 0) { newPlace = 0; }
           else if (newPoint > 1) { newPlace = width; }
@@ -123,14 +129,31 @@ instructions(coordinates) {
    
   }
   render() {
-    const test = () =>
-      <path d="M 100 350 q 150 -300 300 0" stroke="blue"
-      stroke-width= {this.state.testRandom} fill="none"  />
-    
+    var color = d3.scaleOrdinal()
+		//this assumes you have 3 groups of data//﻿each of the domains corresponds to a color set
+        .domain([1, 10,  25, 50,75,100, 161])
+        .range([ "#90CAF9", "#64B5F6", "#42A5F5", "2196f3","#1E88E5", "1976d2","#0D47A1"]);
     return (   
         <div>     
         <svg className = "map"   viewBox="0 0 700 400">
-            <g className="countries" id = "blah" style={{display: this.state.showStore ? 'none' : 'block' }}>
+
+         <defs>
+            <marker
+              id="arrow"
+              markerUnits="strokeWidth"
+              markerWidth="12"
+              markerHeight="12"
+              viewBox="0 0 12 12"
+              fill = "#1E88E5"
+              refX = "6"
+              refY= "6"
+              orient="auto">
+              <path d="M2,2 L10,6 L2,10 L6,6 L2,2"  ></path>
+            </marker>
+          </defs>
+
+
+            <g className="countries"  style={{display: this.state.showStore ? 'none' : 'block' }}>
             {
                 this.state.worldData.map((d,i) => (     
                 <path
@@ -144,22 +167,64 @@ instructions(coordinates) {
                 ))
             }
             </g>   
-        <g className="line" style={{display: this.state.showStore ? 'none' : 'block' }}>
+       
+      
+      <g className="curve" style={{display: this.state.showStore ? 'none' : 'block' }}>
           {
             this.state.cities.map((city, i) => (
-              <line
-                d = { this.instructions( this.projection()(city.coordinates)) }
-                x1={ this.projection()(city.coordinates)[0] }
-                y1={ this.projection()(city.coordinates)[1] }
-                x2={ this.projection()([-86.9081,40.4259])[0] }
-                y2={ this.projection()([-86.9081,40.4259])[1] }
-                  stroke="#4fc3f7"
-                  className="curveCardinal"
-              />
+              <path
+                d = {`M  ${ this.projection()(city.coordinates)[0]} ${this.projection()(city.coordinates)[1]}
+                Q ${(this.projection()([-86.9081,40.4259])[0] + this.projection()(city.coordinates)[0] )/2 } 
+                ${(this.projection()([-86.9081,40.4259])[1] + this.projection()(city.coordinates)[1] )/2 - 75}
+                ${this.projection()([-86.9081,40.4259])[0] } ${this.projection()([-86.9081,40.4259])[1]  }
+                ` }         
+                  stroke= {color(city.Count)}
+                  stroke-width = "2"
+                  fill = "#fff"
+                  fill-opacity = "0"
+                  marker-start= "url(#arrow)"
+                  marker-mid= "url(#arrow)"
+              >             
+              </path>
             ))
         }
       </g>
-      
+
+
+
+
+          {
+            this.state.cities.map((city, i) => (
+              <path transform="translate(457, 156)" >
+              <defs>
+              <marker id="Triangle"  refX={this.projection()([-86.9081,40.4259])[0]} refY={this.projection()([-86.9081,40.4259])[1]}
+                  markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" />
+              </marker>
+            </defs>
+          
+            <polyline points="10,90 50,80 90,20" fill="none" stroke="black" 
+                stroke-width="2" marker-start="url(#Triangle)" />
+                </path>
+            ))
+        }
+
+
+      <defs>
+        <pattern id = "attachedImage" height = "100%" width = "100%"            
+                      patternContentUnits = "objectBoundingBox">
+          <image  href={mapview} preserveAspectRatio = "none" 
+                  width = "1" height = "1"/>
+        </pattern>
+      </defs>
+    <circle cx = { this.projection()([-86.9081,40.4259])[0] } cy ={ this.projection()([-86.9081,40.4259])[1] } r = "2%" fill = "url(#attachedImage)">
+     <title className = "tooltip" >Purdue Polytechnic Institute</title>
+    </circle>
+
+        
+        
+  
+        
         <g className="markers" style={{display: this.state.showStore ? 'none' : 'block' }}>
           {
             this.state.cities.map((city, i) => (
@@ -167,29 +232,31 @@ instructions(coordinates) {
                 key={ `marker-${i}` }
                 cx={ this.projection()(city.coordinates)[0] }
                 cy={ this.projection()(city.coordinates)[1] }
-                r={ city.Count/10  }
-                fill="#4fc3f7"
+                r={ Math.sqrt(city.Count)  }
+                fill={color(city.Count)}
                 stroke="#FFFFFF"
                 className="marker"
-                onClick={ () => this.handleMarkerClick(i) }
-              />
+                onClick={ () => {this.togglePopup(city)} }
+              >
+              <title>{city.Country}</title>
+
+               
+              </circle>
             ))
           }
         </g>
+       
+      
+
           <g style={{display: this.state.showStore ? 'block' : 'none' }}>
             <path d="M 100 350 q 150 -300 300 0" stroke="blue"
                 stroke-width= {this.state.testRandom} fill="none"  />
           </g>
 
-          <defs>
-            <clipPath id="myCircle">
-               <circle cx={ this.projection()([-86.9081,40.4259])[0] } cy={ this.projection()([-86.9081,40.4259])[1]  } r="100" fill="#FFFFFF" />
-            </clipPath>
-         </defs>
-         <image width= "100" height="100" xlinkHref="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjIoIOQu4TfAhVlmeAKHZ4nCH8QjRx6BAgBEAU&url=https%3A%2F%2Fwww.cbssports.com%2Fcollege-basketball%2Fgametracker%2Frecap%2FNCAAB_20171230_LPSCMB%40PURDUE%2F&psig=AOvVaw1QAnoVuVquArpsyfeTKfy1&ust=1543954025820988" clip-path="url(#myCircle)" />
+         
       </svg>
         <form >
-          <input type="range" name="foo" min="2015" max="2018" id = "rangeSlider" onChange = {this.test}></input>
+          <input type="range" name="foo" min="2015" max="2018"  onChange = {this.test}></input>
           <output for="foo" onforminput="value = foo.valueAsNumber;" ></output>
         </form>
       </div>
@@ -201,49 +268,75 @@ class StudentEnrollment extends BaseMap {
   constructor() {
     super()
     this.state = {
+      showPopup: true,
       worldData: feature(Data, Data.objects.countries).features,
       countries : Names,
       land: [],
       borders : [],
-      cities : [        {"Year": "2015", "Country": "Australia", "coordinates": [149.08,-35.15], "Capital": "Canberra", "Count": "2"},
+      cities : [        
+        {"Year": "2015", "Country": "Australia", "coordinates": [149.08,-35.15], "Capital": "Canberra", "Count": "2"},
+        {"Year": "2015", "Country": "Bahamas", "coordinates": [-77.20,25.05], "Capital": "Nassau", "Count": "2"},
+        {"Year": "2015", "Country": "Bangladesh", "coordinates": [90.26,23.43], "Capital": "Dhaka", "Count": "1"},
+        {"Year": "2015", "Country": "Belgium", "coordinates": [4 ,50.51], "Capital": "Bruxelles-Brussel", "Count": "1"},
+        {"Year": "2015", "Country": "Canada", "coordinates": [-75.42,45.27], "Capital": "Ottawa-Gatineau", "Count": "3"},
+        {"Year": "2015", "Country": "Chile", "coordinates": [-70.40,-33.24], "Capital": "Santiago", "Count": "1"},
+        {"Year": "2015", "Country": "China", "coordinates": [116.20,39.55], "Capital": "Beijing", "Count": "161"},
+        {"Year": "2015", "Country": "Colombia", "coordinates": [-74.00,4], "Capital": "Bogot\u00e1", "Count": "1"},
+        {"Year": "2015", "Country": "Ecuador", "coordinates": [-78.35,0], "Capital": "Quito", "Count": "2"},
+        {"Year": "2015", "Country": "Egypt", "coordinates": [31.14,30.01], "Capital": "Al-Qahirah (Cairo)", "Count": "1"},
+        {"Year": "2015", "Country": "Germany", "coordinates": [13.25,52.30], "Capital": "Berlin", "Count": "2"},
+        {"Year": "2015", "Country": "Ghana", "coordinates": [0,5], "Capital": "Accra", "Count": "1"},
+        {"Year": "2015", "Country": "India", "coordinates": [77.13,28.37], "Capital": "Delhi", "Count": "73"},
+        {"Year": "2015", "Country": "Indonesia", "coordinates": [106.49, -6], "Capital": "Jakarta", "Count": "10"},
+        {"Year": "2015", "Country": "Ireland", "coordinates": [-6,53.21], "Capital": "Dublin", "Count": "1"},
+        {"Year": "2015", "Country": "Kazakhstan", "coordinates": [71.30,51.10], "Capital": "Astana", "Count": "3"},
+        {"Year": "2015", "Country": "Malaysia", "coordinates": [101.41,3], "Capital": "Kuala Lumpur", "Count": "1"},
+        {"Year": "2015", "Country": "Nigeria", "coordinates": [7,9.05], "Capital": "Abuja", "Count": "3"},
+        {"Year": "2015", "Country": "Philippines", "coordinates": [121.03,14.40], "Capital": "Manila", "Count": "1"},
+        {"Year": "2015", "Country": "Poland", "coordinates": [21.00,52.13], "Capital": "Warszawa (Warsaw)", "Count": "1"},
+        {"Year": "2015", "Country": "Republic of Korea", "coordinates": [126.58,37.31], "Capital": "Seoul", "Count": "42"},
+        {"Year": "2015", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "1"},
+        {"Year": "2015", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "1"},
+        {"Year": "2015", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "1"},
+        {"Year": "2015", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "4"},
+        {"Year": "2015", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
+        {"Year": "2015", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "2"},
+        {"Year": "2015", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "4"},
+        {"Year": "2015", "Country": "Uganda", "coordinates": [32.30,0], "Capital": "Kampala", "Count": "2"},
+        {"Year": "2015", "Country": "United Kingdom", "coordinates": [0, 51.50], "Capital": "London", "Count": "1"},
     ],
       allCities:         {
         "2015" : [
-        {"Year": "2015", "Country": "Australia", "coordinates": [149.08,-35.15], "Capital": "Canberra", "Count": "2"},
-            {"Year": "2015", "Country": "Bahamas", "coordinates": [-77.20,25.05], "Capital": "Nassau", "Count": "2"},
-            {"Year": "2015", "Country": "Bangladesh", "coordinates": [90.26,23.43], "Capital": "Dhaka", "Count": "1"},
-            {"Year": "2015", "Country": "Belgium", "coordinates": [4 ,50.51], "Capital": "Bruxelles-Brussel", "Count": "1"},
-            {"Year": "2015", "Country": "Canada", "coordinates": [-75.42,45.27], "Capital": "Ottawa-Gatineau", "Count": "3"},
-            {"Year": "2015", "Country": "Chile", "coordinates": [-70.40,-33.24], "Capital": "Santiago", "Count": "1"},
-            {"Year": "2015", "Country": "China", "coordinates": [116.20,39.55], "Capital": "Beijing", "Count": "161"},
-            {"Year": "2015", "Country": "Colombia", "coordinates": [-74.00,4], "Capital": "Bogot\u00e1", "Count": "1"},
-            {"Year": "2015", "Country": "Ecuador", "coordinates": [-78.35,0], "Capital": "Quito", "Count": "2"},
-            {"Year": "2015", "Country": "Egypt", "coordinates": [31.14,30.01], "Capital": "Al-Qahirah (Cairo)", "Count": "1"},
-            {"Year": "2015", "Country": "Germany", "coordinates": [13.25,52.30], "Capital": "Berlin", "Count": "2"},
-            {"Year": "2015", "Country": "Ghana", "coordinates": [0,5], "Capital": "Accra", "Count": "1"},
-            {"Year": "2015", "Country": "India", "coordinates": [77.13,28.37], "Capital": "Delhi", "Count": "73"},
-            {"Year": "2015", "Country": "Indonesia", "coordinates": [106.49, -6], "Capital": "Jakarta", "Count": "10"},
-            {"Year": "2015", "Country": "Ireland", "coordinates": [-6,53.21], "Capital": "Dublin", "Count": "1"},
-            {"Year": "2015", "Country": "Kazakhstan", "coordinates": [71.30,51.10], "Capital": "Astana", "Count": "3"},
-            {"Year": "2015", "Country": "Malaysia", "coordinates": [101.41,3], "Capital": "Kuala Lumpur", "Count": "1"},
-            {"Year": "2015", "Country": "Nigeria", "coordinates": [7,9.05], "Capital": "Abuja", "Count": "3"},
-            {"Year": "2015", "Country": "Philippines", "coordinates": [121.03,14.40], "Capital": "Manila", "Count": "1"},
-            {"Year": "2015", "Country": "Poland", "coordinates": [21.00,52.13], "Capital": "Warszawa (Warsaw)", "Count": "1"},
-            {"Year": "2015", "Country": "Republic of Korea", "coordinates": [126.58,37.31], "Capital": "Seoul", "Count": "42"},
-            {"Year": "2015", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "1"},
-            {"Year": "2015", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "1"},
-            {"Year": "2015", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "1"},
-            {"Year": "2015", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "2"},
-            {"Year": "2015", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "1"},
-            {"Year": "2015", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "1"},
-            {"Year": "2015", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "2"},
-            {"Year": "2015", "Country": "Uganda", "coordinates": [32.30,0], "Capital": "Kampala", "Count": "1"},
-            {"Year": "2015", "Country": "Sweden", "coordinates": "", "Capital": "Stockholm", "Count": "2"},
-            {"Year": "2015", "Country": "Switzerland", "coordinates": "", "Capital": "Bern", "Count": "1"},
-            {"Year": "2015", "Country": "Thailand", "coordinates": "", "Capital": "Krung Thep (Bangkok)", "Count": "1"},
-            {"Year": "2015", "Country": "Turkey", "coordinates": "", "Capital": "Ankara", "Count": "2"},
-            {"Year": "2015", "Country": "Uganda", "coordinates": "", "Capital": "Kampala", "Count": "1"},
-            {"Year": "2015", "Country": "United Kingdom", "coordinates": "", "Capital": "London", "Count": "1"},
+          {"Year": "2015", "Country": "Australia", "coordinates": [149.08,-35.15], "Capital": "Canberra", "Count": "2"},
+          {"Year": "2015", "Country": "Bahamas", "coordinates": [-77.20,25.05], "Capital": "Nassau", "Count": "2"},
+          {"Year": "2015", "Country": "Bangladesh", "coordinates": [90.26,23.43], "Capital": "Dhaka", "Count": "1"},
+          {"Year": "2015", "Country": "Belgium", "coordinates": [4 ,50.51], "Capital": "Bruxelles-Brussel", "Count": "1"},
+          {"Year": "2015", "Country": "Canada", "coordinates": [-75.42,45.27], "Capital": "Ottawa-Gatineau", "Count": "3"},
+          {"Year": "2015", "Country": "Chile", "coordinates": [-70.40,-33.24], "Capital": "Santiago", "Count": "1"},
+          {"Year": "2015", "Country": "China", "coordinates": [116.20,39.55], "Capital": "Beijing", "Count": "161"},
+          {"Year": "2015", "Country": "Colombia", "coordinates": [-74.00,4], "Capital": "Bogot\u00e1", "Count": "1"},
+          {"Year": "2015", "Country": "Ecuador", "coordinates": [-78.35,0], "Capital": "Quito", "Count": "2"},
+          {"Year": "2015", "Country": "Egypt", "coordinates": [31.14,30.01], "Capital": "Al-Qahirah (Cairo)", "Count": "1"},
+          {"Year": "2015", "Country": "Germany", "coordinates": [13.25,52.30], "Capital": "Berlin", "Count": "2"},
+          {"Year": "2015", "Country": "Ghana", "coordinates": [0,5], "Capital": "Accra", "Count": "1"},
+          {"Year": "2015", "Country": "India", "coordinates": [77.13,28.37], "Capital": "Delhi", "Count": "73"},
+          {"Year": "2015", "Country": "Indonesia", "coordinates": [106.49, -6], "Capital": "Jakarta", "Count": "10"},
+          {"Year": "2015", "Country": "Ireland", "coordinates": [-6,53.21], "Capital": "Dublin", "Count": "1"},
+          {"Year": "2015", "Country": "Kazakhstan", "coordinates": [71.30,51.10], "Capital": "Astana", "Count": "3"},
+          {"Year": "2015", "Country": "Malaysia", "coordinates": [101.41,3], "Capital": "Kuala Lumpur", "Count": "1"},
+          {"Year": "2015", "Country": "Nigeria", "coordinates": [7,9.05], "Capital": "Abuja", "Count": "3"},
+          {"Year": "2015", "Country": "Philippines", "coordinates": [121.03,14.40], "Capital": "Manila", "Count": "1"},
+          {"Year": "2015", "Country": "Poland", "coordinates": [21.00,52.13], "Capital": "Warszawa (Warsaw)", "Count": "1"},
+          {"Year": "2015", "Country": "Republic of Korea", "coordinates": [126.58,37.31], "Capital": "Seoul", "Count": "42"},
+          {"Year": "2015", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "1"},
+          {"Year": "2015", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "1"},
+          {"Year": "2015", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "1"},
+          {"Year": "2015", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "4"},
+          {"Year": "2015", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
+          {"Year": "2015", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "2"},
+          {"Year": "2015", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "4"},
+          {"Year": "2015", "Country": "Uganda", "coordinates": [32.30,0], "Capital": "Kampala", "Count": "2"},
+          {"Year": "2015", "Country": "United Kingdom", "coordinates": [0, 51.50], "Capital": "London", "Count": "1"},
         ],
         "2016": [
             {"Year": "2016", "Country": "Australia", "coordinates": [149.08,-35.15], "Capital": "Canberra", "Count": "1"},
@@ -275,18 +368,13 @@ class StudentEnrollment extends BaseMap {
             {"Year": "2016", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "2"},
             {"Year": "2016", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "3"},
             {"Year": "2016", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "2"},
-            {"Year": "2016", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "2"},
-            {"Year": "2016", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
-            {"Year": "2016", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "5"},
-            {"Year": "2016", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "2"},
-            {"Year": "2016", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "1"},
-            {"Year": "2016", "Country": "Sweden", "coordinates": "", "Capital": "Stockholm", "Count": "2"},
-            {"Year": "2016", "Country": "Switzerland", "coordinates": "", "Capital": "Bern", "Count": "2"},
-            {"Year": "2016", "Country": "Syria", "coordinates": "", "Capital": "Dimashq (Damascus)", "Count": "1"},
-            {"Year": "2016", "Country": "Thailand", "coordinates": "", "Capital": "Krung Thep (Bangkok)", "Count": "5"},
-            {"Year": "2016", "Country": "Turkey", "coordinates": "", "Capital": "Ankara", "Count": "2"},
-            {"Year": "2016", "Country": "United Kingdom", "coordinates": "", "Capital": "London", "Count": "3"},
-            {"Year": "2016", "Country": "Venezuela", "coordinates": "", "Capital": "Caracas", "Count": "1"},
+            {"Year": "2016", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "4"},
+            {"Year": "2016", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "4"},
+            {"Year": "2016", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "10"},
+            {"Year": "2016", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "4"},
+            {"Year": "2016", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "2"},
+            {"Year": "2016", "Country": "Syria", "coordinates": [36,33], "Capital": "Dimashq (Damascus)", "Count": "1"},
+            {"Year": "2016", "Country": "United Kingdom", "coordinates":[0, 51.50], "Capital": "London", "Count": "3"},
         ],
         "2017" : [
             {"Year": "2017", "Country": "Argentina", "coordinates": [-60.00,-36.30], "Capital": "Buenos Aires", "Count": "1"},
@@ -326,14 +414,11 @@ class StudentEnrollment extends BaseMap {
             {"Year": "2017", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "2"},
             {"Year": "2017", "Country": "Saudi Arabia", "coordinates": [46.42,24.41], "Capital": "Ar-Riyadh (Riyadh)", "Count": "2"},
             {"Year": "2017", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "2"},
-            {"Year": "2017", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
-            {"Year": "2017", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "2"},
-            {"Year": "2017", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "2"},
-            {"Year": "2017", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "2"},
-            {"Year": "2017", "Country": "Switzerland", "coordinates": "", "Capital": "Bern", "Count": "2"},
-            {"Year": "2017", "Country": "Thailand", "coordinates": "", "Capital": "Krung Thep (Bangkok)", "Count": "2"},
-            {"Year": "2017", "Country": "Turkey", "coordinates": "", "Capital": "Ankara", "Count": "2"},
-            {"Year": "2017", "Country": "Venezuela", "coordinates": "", "Capital": "Caracas", "Count": "2"},
+            {"Year": "2017", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "4"},
+            {"Year": "2017", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "4"},
+            {"Year": "2017", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "4"},
+            {"Year": "2017", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "4"},
+
             ],
         "2018" : [
         {"Year": "2018", "Country": "Argentina", "coordinates": [-60.00,-36.30], "Capital": "Buenos Aires", "Count": "2"},
@@ -375,19 +460,13 @@ class StudentEnrollment extends BaseMap {
             {"Year": "2018", "Country": "Romania", "coordinates": [26.10,44.27], "Capital": "Bucuresti (Bucharest)", "Count": "1"},
             {"Year": "2018", "Country": "Russian Federation", "coordinates": [37.35,55.45], "Capital": "Moskva (Moscow)", "Count": "2"},
             {"Year": "2018", "Country": "Spain", "coordinates": [-3,40.25], "Capital": "Madrid", "Count": "1"},
-            {"Year": "2018", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "1"},
-            {"Year": "2018", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "2"},
-            {"Year": "2018", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "2"},
+            {"Year": "2018", "Country": "Sweden", "coordinates": [18.03,59.20], "Capital": "Stockholm", "Count": "2"},
+            {"Year": "2018", "Country": "Switzerland", "coordinates": [7,46.57], "Capital": "Bern", "Count": "4"},
+            {"Year": "2018", "Country": "Thailand", "coordinates": [100.35,13.45], "Capital": "Krung Thep (Bangkok)", "Count": "4"},
             {"Year": "2018", "Country": "Turkey", "coordinates": [32.54,39.57], "Capital": "Ankara", "Count": "2"},
-            {"Year": "2018", "Country": "United Arab Emirates", "coordinates": [54.22,24.28], "Capital": "Abu Zaby (Abu Dhabi)", "Count": "1"},
-            {"Year": "2018", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "1"},
-            {"Year": "2018", "Country": "Sweden", "coordinates": "", "Capital": "Stockholm", "Count": "1"},
-            {"Year": "2018", "Country": "Switzerland", "coordinates": "", "Capital": "Bern", "Count": "2"},
-            {"Year": "2018", "Country": "Thailand", "coordinates": "", "Capital": "Krung Thep (Bangkok)", "Count": "2"},
-            {"Year": "2018", "Country": "Turkey", "coordinates": "", "Capital": "Ankara", "Count": "2"},
-            {"Year": "2018", "Country": "United Arab Emirates", "coordinates": "", "Capital": "Abu Zaby (Abu Dhabi)", "Count": "1"},
-            {"Year": "2018", "Country": "United Kingdom", "coordinates": "", "Capital": "London", "Count": "1"},
-            {"Year": "2018", "Country": "Venezuela", "coordinates": "", "Capital": "Caracas", "Count": "1"},
+            {"Year": "2018", "Country": "United Arab Emirates", "coordinates": [54.22,24.28], "Capital": "Abu Zaby (Abu Dhabi)", "Count": "2"},
+            {"Year": "2018", "Country": "Venezuela", "coordinates": [-66.55,10.30], "Capital": "Caracas", "Count": "2"},
+            {"Year": "2018", "Country": "United Kingdom", "coordinates": [0, 51.50], "Capital": "London", "Count": "1"},
         ]
         }
 
@@ -404,70 +483,41 @@ class VisitingScholars extends BaseMap {
   constructor() {
     super()
     this.state = {
+      showPopup: true,
       worldData: feature(Data, Data.objects.countries).features,
       countries : Names,
       land: [],
       borders : [],
-      cities: [],
-      allCities: [
-        {"Year": "2012", "Country": "Berlin", "Capital": "Germany", "coordinates": [13.25,52.30], "Count": "3"}
-        ,    {"Year": "2013", "Country": "Beijing", "Capital": "China", "coordinates": [116.20,39.55], "Count": "1"}
-        ,    {"Year": "2013", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "2"}
-        ,    {"Year": "2012", "Country": "Roma (Rome)", "Capital": "Italy", "coordinates": [12.29,41.54], "Count": "5"}
-        ,    {"Year": "2016", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "4"}
-        ,    {"Year": "2012", "Country": "Dublin", "Capital": "Ireland", "coordinates": [-6,53.21], "Count": "5"}
-        ,    {"Year": "2011", "Country": "Beijing", "Capital": "China", "coordinates": [116.20,39.55], "Count": "3"}
-        ,    {"Year": "2016", "Country": "Berlin", "Capital": "Germany", "coordinates": [13.25,52.30], "Count": "4"}
-        ,    {"Year": "2013", "Country": "San Jos\u00c3\u00a9", "Capital": "Costa Rica", "coordinates": [-84.02,9.55], "Count": "19"}
-        ,    {"Year": "2013", "Country": "Berlin", "Capital": "Germany", "coordinates": [13.25,52.30], "Count": "7"}
-        ,    {"Year": "2015", "Country": "Bogot\u00c3\u00a1", "Capital": "Colombia", "coordinates": [-74.00,-4], "Count": "3"}
-        ,    {"Year": "2012", "Country": "Pretoria", "Capital": "outh Africa", "coordinates": [28.12,-25.44], "Count": "2"}
-        ,    {"Year": "2012", "Country": "Bloemfontein", "Capital": "outh Africa", "coordinates": [28.12,-25.44], "Count": "2"}
-        ,    {"Year": "2012", "Country": "Cape Town", "Capital": "outh Africa", "coordinates": [28.12,-25.44], "Count": "2"}
-        ,    {"Year": "2013", "Country": "Roma (Rome)", "Capital": "Italy", "coordinates": [12.29,41.54], "Count": "4"}
-        ,    {"Year": "2015", "Country": "Roma (Rome)", "Capital": "Italy", "coordinates": [12.29,41.54], "Count": "2"}
-        ,    {"Year": "2011", "Country": "Berlin", "Capital": "Germany", "coordinates": [13.25,52.30], "Count": "17"}
-        ,    {"Year": "2012", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "4"}
-        ,    {"Year": "2011", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "7"}
-        ,    {"Year": "2012", "Country": "San Jos\u00c3\u00a9", "Capital": "Costa Rica", "coordinates": [-84.02,9.55], "Count": "3"}
-        ,    {"Year": "2016", "Country": "Beijing", "Capital": "China", "coordinates": [116.20,39.55], "Count": "3"}
-        ,    {"Year": "2011", "Country": "Madrid", "Capital": "pain", "coordinates": [-3,40.25], "Count": "4"}
-        ,    {"Year": "2015", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "2"}
-        ,    {"Year": "null", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "1"}
-        ,    {"Year": "2015", "Country": "Dublin", "Capital": "Ireland", "coordinates": [-6,53.21], "Count": "2"}
-        ,    {"Year": "2014", "Country": "Canberra", "Capital": "Australia", "coordinates": [149.08,-35.15], "Count": "2"}
-        ,    {"Year": "2012", "Country": "Ankara", "Capital": "Turkey", "coordinates": [32.54,39.57], "Count": "1"}
-        ,    {"Year": "2014", "Country": "Bogot\u00c3\u00a1", "Capital": "Colombia", "coordinates": [-74.00,-4], "Count": "2"}
-        ,    {"Year": "2015", "Country": "Beijing", "Capital": "China", "coordinates": [116.20,39.55], "Count": "1"}
-        ,    {"Year": "2013", "Country": "Lima", "Capital": "Peru", "coordinates": [-77.00,-12.00], "Count": "1"}
-        ,    {"Year": "null", "Country": "La Habana (Havana)", "Capital": "Cuba", "coordinates": [-82.22,23.08], "Count": "1"}
-        ,    {"Year": "2011", "Country": "Dublin", "Capital": "Ireland", "coordinates": [-6,53.21], "Count": "1"}
-        ,    {"Year": "2014", "Country": "Roma (Rome)", "Capital": "Italy", "coordinates": [12.29,41.54], "Count": "1"}
-        ,    {"Year": "2012", "Country": "Beijing", "Capital": "China", "coordinates": [116.20,39.55], "Count": "2"}
-        ,    {"Year": "2012", "Country": "Bogot\u00c3\u00a1", "Capital": "Colombia", "coordinates": [-74.00,-4], "Count": "1"}
-        ,    {"Year": "2016", "Country": "Ciudad de M\u00c3\u00a9xico (Mexico City)", "Capital": "Mexico", "coordinates": [99.10,19.20], "Count": "1"}
-        ,    {"Year": "2014", "Country": "Dublin", "Capital": "Ireland", "coordinates": [-6,53.21], "Count": "2"}
-        ,    {"Year": "2014", "Country": "Berlin", "Capital": "Germany", "coordinates": [13.25,52.30], "Count": "2"}
-        ,    {"Year": "2014", "Country": "San Jos\u00c3\u00a9", "Capital": "Costa Rica", "coordinates": [-84.02,9.55], "Count": "1"}
-        ,    {"Year": "2011", "Country": "Roma (Rome)", "Capital": "Italy", "coordinates": [12.29,41.54], "Count": "1"}
-        ,    {"Year": "2016", "Country": "Lima", "Capital": "Peru", "coordinates": [-77.00,-12.00], "Count": "1"}
-        ,    {"Year": "2013", "Country": "Bogot\u00c3\u00a1", "Capital": "Colombia", "coordinates": [-74.00,-4], "Count": "1"}
-        ,    {"Year": "2013", "Country": "Ath\u00c3\u00adnai (Athens)", "Capital": "Greece", "coordinates": [23.46,37.58], "Count": "1"}
-        ,    {"Year": "2011", "Country": "San Jos\u00c3\u00a9", "Capital": "Costa Rica", "coordinates": [-84.02,9.55], "Count": "1"}
-        ,    {"Year": "2013", "Country": "Bern", "Capital": "witzerland", "coordinates": [-7,46.57], "Count": "1"}
-        ,    {"Year": "2016", "Country": "Madrid", "Capital": "pain", "coordinates": [-3,40.25], "Count": "1"}
-        ,    {"Year": "2011", "Country": "Tegucigalpa", "Capital": "Honduras", "coordinates": [-87.14,14.05], "Count": "1"}
-        ,    {"Year": "Madrid", "Country": [3,40.25], "Capital": "null", "coordinates": "null", "Count": "2"}
-        ,    {"Year": "Canberra", "Country": [149.08,35.15], "Capital": "null", "coordinates": "null", "Count": "4"}
-        ,    {"Year": "Berlin", "Country": [13.25,52.30], "Capital": "null", "coordinates": "null", "Count": "6"}
-        ,    {"Year": "London", "Country": "null", "Capital": "null", "coordinates": "null", "Count": "3"}
-        ,    {"Year": "San Jos\u00c3\u00a9", "Country": [84.02,9.55], "Capital": "null", "coordinates": "null", "Count": "5"}
-        ,    {"Year": "Beijing", "Country": [116.20,39.55], "Capital": "null", "coordinates": "null", "Count": "2"}
-        ,    {"Year": "Dublin", "Country": [6,53.21], "Capital": "null", "coordinates": "null", "Count": "2"}
-        ,    {"Year": "Tegucigalpa", "Country": [87.14,14.05], "Capital": "null", "coordinates": "null", "Count": "1"}
+      cities: [ {"Year": "2015",  "coordinates": [-75.42,45.27],"Country": "Canada", "Count": "1"}
+              , {"Year": "2015","coordinates":[116.20,39.55], "Country": "China", "Count": "2"}
+              , {"Year": "2015", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+              , {"Year": "2015", "coordinates": [32.30,0],"Country": "Uganda", "Count": "1"}
+              , {"Year": "2015","coordinates": [74.13,40.37], "Country": "United States", "Count": "5"}
+     ],
+      allCities: {
+         "2015" :[ 
+           {"Year": "2015", "coordinates":[-75.42,45.27],"Country": "Canada", "Count": "1"}
+         , {"Year": "2015", "coordinates": [116.20,39.55],"Country": "China", "Count": "2"}
+         , {"Year": "2015", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+         , {"Year": "2015", "coordinates": [77.13,28.37],"Country": "Uganda", "Count": "1"}
+        ],
+        "2016" :[ 
+          {"Year": "2016", "coordinates": [116.20,39.55], "Country": "China", "Count": "1"}
+         , {"Year": "2016", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+         , {"Year": "2016", "coordinates": [74.13,40.37],"Country": "United States", "Count": "6"}
       ],
-
-    }
+      "2017" :[ 
+           {"Year": "2017", "coordinates":[116.20,39.55],"Country": "China", "Count": "2"}
+         , {"Year": "2017", "coordinates": [77.13,28.37],"Country": "India",  "Count": "1"}
+         , {"Year": "2017", "coordinates": [74.13,40.37],"Country": "United States", "Count": "5"}
+    ], 
+    "2018": [ 
+           {"Year": "2018", "coordinates": [149.08,-35.15],"Country": "Australia", "Count": "1"}
+         , {"Year": "2018", "coordinates": [82.13,32.37], "Country": "Georgia", "Count": "1"}
+         , {"Year": "2018", "coordinates": [74.13,40.37], "Country": "United States", "Count": "2"}
+  ]
+}
+}
     this.join = this.join.bind(this);
   }
   
@@ -479,15 +529,40 @@ class StudyingAbroad extends BaseMap {
   constructor() {
     super()
     this.state = {
+      showPopup: true,
       worldData: feature(Data, Data.objects.countries).features,
       countries : Names,
       land: [],
       borders : [],
-      cities: [],
+      cities: [ {"Year": "2015",  "coordinates": [-75.42,45.27],"Country": "Canada", "Count": "1"}
+              , {"Year": "2015","coordinates":[116.20,39.55], "Country": "China", "Count": "2"}
+              , {"Year": "2015", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+              , {"Year": "2015", "coordinates": [32.30,0],"Country": "Uganda", "Count": "1"}
+              , {"Year": "2015","coordinates": [74.13,40.37], "Country": "United States", "Count": "5"}
+     ],
       allCities: {
-       "2015" : [{ name: "Tokyo", coordinates: [139.6917,35.6895], population: 37843000 }],
-       
-      },
+         "2015" :[ 
+           {"Year": "2015", "coordinates":[-75.42,45.27],"Country": "Canada", "Count": "1"}
+         , {"Year": "2015", "coordinates": [116.20,39.55],"Country": "China", "Count": "2"}
+         , {"Year": "2015", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+         , {"Year": "2015", "coordinates": [77.13,28.37],"Country": "Uganda", "Count": "1"}
+        ],
+        "2016" :[ 
+          {"Year": "2016", "coordinates": [116.20,39.55], "Country": "China", "Count": "1"}
+         , {"Year": "2016", "coordinates": [80.13, 7.8],"Country": "Sri Lanka", "Count": "1"}
+         , {"Year": "2016", "coordinates": [74.13,40.37],"Country": "United States", "Count": "6"}
+      ],
+      "2017" :[ 
+           {"Year": "2017", "coordinates":[116.20,39.55],"Country": "China", "Count": "2"}
+         , {"Year": "2017", "coordinates": [77.13,28.37],"Country": "India",  "Count": "1"}
+         , {"Year": "2017", "coordinates": [74.13,40.37],"Country": "United States", "Count": "5"}
+    ], 
+    "2018": [ 
+           {"Year": "2018", "coordinates": [149.08,-35.15],"Country": "Australia", "Count": "1"}
+         , {"Year": "2018", "coordinates": [82.13,32.37], "Country": "Georgia", "Count": "1"}
+         , {"Year": "2018", "coordinates": [74.13,40.37], "Country": "United States", "Count": "2"}
+  ]
+}
 
     }
     this.join = this.join.bind(this);
@@ -497,4 +572,4 @@ class StudyingAbroad extends BaseMap {
  
 }
 
-export { StudentEnrollment, VisitingScholars, StudyingAbroad}
+export { StudentEnrollment,VisitingScholars,  StudyingAbroad}

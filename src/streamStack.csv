@@ -1,127 +1,222 @@
-﻿key,value,date
-AR,0.1,01/08/13
-AR,0.15,01/09/13
-AR,0.35,01/10/13
-AR,0.38,01/11/13
-AR,0.22,01/12/13
-AR,0.16,01/13/13
-AR,0.07,01/14/13
-AR,0.02,01/15/13
-AR,0.17,01/16/13
-AR,0.33,01/17/13
-AR,0.4,01/18/13
-AR,0.32,01/19/13
-AR,0.26,01/20/13
-AR,0.35,01/21/13
-AR,0.4,01/22/13
-AR,0.32,01/23/13
-AR,0.26,01/24/13
-AR,0.22,01/25/13
-AR,0.16,01/26/13
-AR,0.22,01/27/13
-AR,0.1,01/28/13
-DJ,0.35,01/08/13
-DJ,0.36,01/09/13
-DJ,0.37,01/10/13
-DJ,0.22,01/11/13
-DJ,0.24,01/12/13
-DJ,0.26,01/13/13
-DJ,0.34,01/14/13
-DJ,0.21,01/15/13
-DJ,0.18,01/16/13
-DJ,0.45,01/17/13
-DJ,0.32,01/18/13
-DJ,0.35,01/19/13
-DJ,0.3,01/20/13
-DJ,0.28,01/21/13
-DJ,0.27,01/22/13
-DJ,0.26,01/23/13
-DJ,0.15,01/24/13
-DJ,0.3,01/25/13
-DJ,0.35,01/26/13
-DJ,0.42,01/27/13
-DJ,0.42,01/28/13
-MS,0.21,01/08/13
-MS,0.25,01/09/13
-MS,0.27,01/10/13
-MS,0.23,01/11/13
-MS,0.24,01/12/13
-MS,0.21,01/13/13
-MS,0.35,01/14/13
-MS,0.39,01/15/13
-MS,0.4,01/16/13
-MS,0.36,01/17/13
-MS,0.33,01/18/13
-MS,0.43,01/19/13
-MS,0.4,01/20/13
-MS,0.34,01/21/13
-MS,0.28,01/22/13
-MS,0.26,01/23/13
-MS,0.37,01/24/13
-MS,0.41,01/25/13
-MS,0.46,01/26/13
-MS,0.47,01/27/13
-MS,0.41,01/28/13
-RC,0.1,01/08/13
-RC,0.15,01/09/13
-RC,0.35,01/10/13
-RC,0.38,01/11/13
-RC,0.22,01/12/13
-RC,0.16,01/13/13
-RC,0.07,01/14/13
-RC,0.02,01/15/13
-RC,0.17,01/16/13
-RC,0.33,01/17/13
-RC,0.4,01/18/13
-RC,0.32,01/19/13
-RC,0.26,01/20/13
-RC,0.35,01/21/13
-RC,0.4,01/22/13
-RC,0.32,01/23/13
-RC,0.26,01/24/13
-RC,0.22,01/25/13
-RC,0.16,01/26/13
-RC,0.22,01/27/13
-RC,0.1,01/28/13
-CG,0.1,01/08/13
-CG,0.15,01/09/13
-CG,0.35,01/10/13
-CG,0.38,01/11/13
-CG,0.22,01/12/13
-CG,0.16,01/13/13
-CG,0.07,01/14/13
-CG,0.02,01/15/13
-CG,0.17,01/16/13
-CG,0.33,01/17/13
-CG,0.4,01/18/13
-CG,0.32,01/19/13
-CG,0.26,01/20/13
-CG,0.35,01/21/13
-CG,0.4,01/22/13
-CG,0.32,01/23/13
-CG,0.26,01/24/13
-CG,0.22,01/25/13
-CG,0.16,01/26/13
-CG,0.22,01/27/13
-CG,0.1,01/28/13
-RI,0.1,01/08/13
-RI,0.15,01/09/13
-RI,0.35,01/10/13
-RI,0.38,01/11/13
-RI,0.22,01/12/13
-RI,0.16,01/13/13
-RI,0.07,01/14/13
-RI,0.02,01/15/13
-RI,0.17,01/16/13
-RI,0.33,01/17/13
-RI,0.4,01/18/13
-RI,0.32,01/19/13
-RI,0.26,01/20/13
-RI,0.35,01/21/13
-RI,0.4,01/22/13
-RI,0.32,01/23/13
-RI,0.26,01/24/13
-RI,0.22,01/25/13
-RI,0.16,01/26/13
-RI,0.22,01/27/13
-RI,0.1,01/28/13
+﻿date,key,value
+2018,Agriculture,483
+2017,Agriculture,513
+2016,Agriculture,468
+2015,Agriculture,431
+2014,Agriculture,446
+2013,Agriculture,422
+2012,Agriculture,446
+2011,Agriculture,416
+2010,Agriculture,378
+2009,Agriculture,307
+2008,Agriculture,64
+2007,Agriculture,288
+2006,Agriculture,310
+2005,Agriculture,303
+2004,Agriculture,310
+2003,Agriculture,233
+2002,Agriculture,250
+2018,Education,106
+2017,Education,118
+2016,Education,114
+2015,Education,106
+2014,Education,100
+2013,Education,89
+2012,Education,82
+2011,Education,83
+2010,Education,80
+2009,Education,87
+2008,Education,15
+2007,Education,75
+2006,Education,0
+2005,Education,72
+2004,Education,67
+2003,Education,77
+2002,Education,69
+2018,Engineering,3667
+2017,Engineering,3770
+2016,Engineering,3884
+2015,Engineering,3747
+2014,Engineering,3628
+2013,Engineering,3366
+2012,Engineering,3304
+2011,Engineering,2990
+2010,Engineering,2758
+2009,Engineering,2514
+2008,Engineering,602
+2007,Engineering,2141
+2006,Engineering,1994
+2005,Engineering,2071
+2004,Engineering,2116
+2003,Engineering,2320
+2002,Engineering,2269
+2018,Interdiscipliary Programs,41
+2017,Interdiscipliary Programs,51
+2016,Interdiscipliary Programs,190
+2015,Interdiscipliary Programs,195
+2014,Interdiscipliary Programs,164
+2013,Interdiscipliary Programs,151
+2012,Interdiscipliary Programs,140
+2011,Interdiscipliary Programs,129
+2010,Interdiscipliary Programs,140
+2009,Interdiscipliary Programs,112
+2008,Interdiscipliary Programs,39
+2007,Interdiscipliary Programs,93
+2006,Interdiscipliary Programs,83
+2005,Interdiscipliary Programs,91
+2004,Interdiscipliary Programs,95
+2003,Interdiscipliary Programs,93
+2002,Interdiscipliary Programs,0
+2018,Exploratory Studies ,102
+2017,Exploratory Studies ,115
+2016,Exploratory Studies ,115
+2015,Exploratory Studies ,163
+2014,Exploratory Studies ,233
+2013,Exploratory Studies ,0
+2012,Exploratory Studies ,0
+2011,Exploratory Studies ,0
+2010,Exploratory Studies ,0
+2009,Exploratory Studies ,0
+2008,Exploratory Studies ,0
+2007,Exploratory Studies ,0
+2006,Exploratory Studies ,0
+2005,Exploratory Studies ,0
+2004,Exploratory Studies ,0
+2003,Exploratory Studies ,0
+2002,Exploratory Studies ,0
+2018,Pharmacy,427
+2017,Pharmacy,117
+2016,Pharmacy,97
+2015,Pharmacy,97
+2014,Pharmacy,98
+2013,Pharmacy,101
+2012,Pharmacy,104
+2011,Pharmacy,482
+2010,Pharmacy,366
+2009,Pharmacy,105
+2008,Pharmacy,24
+2007,Pharmacy,94
+2006,Pharmacy,100
+2005,Pharmacy,83
+2004,Pharmacy,95
+2003,Pharmacy,96
+2002,Pharmacy,85
+2018,Liberal Arts,486
+2017,Liberal Arts,517
+2016,Liberal Arts,527
+2015,Liberal Arts,664
+2014,Liberal Arts,661
+2013,Liberal Arts,786
+2012,Liberal Arts,612
+2011,Liberal Arts,550
+2010,Liberal Arts,486
+2009,Liberal Arts,450
+2008,Liberal Arts,142
+2007,Liberal Arts,389
+2006,Liberal Arts,413
+2005,Liberal Arts,401
+2004,Liberal Arts,373
+2003,Liberal Arts,346
+2002,Liberal Arts,314
+2018,Krannert,933
+2017,Krannert,1027
+2016,Krannert,1173
+2015,Krannert,1183
+2014,Krannert,1242
+2013,Krannert,1231
+2012,Krannert,1258
+2011,Krannert,1286
+2010,Krannert,1034
+2009,Krannert,916
+2008,Krannert,338
+2007,Krannert,733
+2006,Krannert,647
+2005,Krannert,594
+2004,Krannert,640
+2003,Krannert,679
+2002,Krannert,690
+2018,Polytechnic,762
+2017,Polytechnic,719
+2016,Polytechnic,675
+2015,Polytechnic,592
+2014,Polytechnic,483
+2013,Polytechnic,363
+2012,Polytechnic,309
+2011,Polytechnic,260
+2010,Polytechnic,202
+2009,Polytechnic,185
+2008,Polytechnic,51
+2007,Polytechnic,124
+2006,Polytechnic,127
+2005,Polytechnic,127
+2004,Polytechnic,129
+2003,Polytechnic,142
+2002,Polytechnic,123
+2018,Science,1753
+2017,Science,1710
+2016,Science,1569
+2015,Science,1531
+2014,Science,1474
+2013,Science,1506
+2012,Science,1617
+2011,Science,1504
+2010,Science,1167
+2009,Science,1011
+2008,Science,225
+2007,Science,755
+2006,Science,779
+2005,Science,768
+2004,Science,757
+2003,Science,750
+2002,Science,781
+2018,Veternary Medicine,39
+2017,Veternary Medicine,33
+2016,Veternary Medicine,33
+2015,Veternary Medicine,30
+2014,Veternary Medicine,35
+2013,Veternary Medicine,35
+2012,Veternary Medicine,40
+2011,Veternary Medicine,52
+2010,Veternary Medicine,57
+2009,Veternary Medicine,58
+2008,Veternary Medicine,8
+2007,Veternary Medicine,57
+2006,Veternary Medicine,51
+2005,Veternary Medicine,48
+2004,Veternary Medicine,41
+2003,Veternary Medicine,42
+2002,Veternary Medicine,36
+2018,Consumer and Family Sciences,0
+2017,Consumer and Family Sciences,0
+2016,Consumer and Family Sciences,0
+2015,Consumer and Family Sciences,0
+2014,Consumer and Family Sciences,0
+2013,Consumer and Family Sciences,0
+2012,Consumer and Family Sciences,0
+2011,Consumer and Family Sciences,0
+2010,Consumer and Family Sciences,0
+2009,Consumer and Family Sciences,153
+2008,Consumer and Family Sciences,36
+2007,Consumer and Family Sciences,150
+2006,Consumer and Family Sciences,156
+2005,Consumer and Family Sciences,159
+2004,Consumer and Family Sciences,159
+2003,Consumer and Family Sciences,149
+2002,Consumer and Family Sciences,153
+2018,Non-degree,4
+2017,Non-degree,4
+2016,Non-degree,4
+2015,Non-degree,21
+2014,Non-degree,43
+2013,Non-degree,181
+2012,Non-degree,156
+2011,Non-degree,151
+2010,Non-degree,67
+2009,Non-degree,64
+2008,Non-degree,33
+2007,Non-degree,65
+2006,Non-degree,68
+2005,Non-degree,21
+2004,Non-degree,121
+2003,Non-degree,151
+2002,Non-degree,228
